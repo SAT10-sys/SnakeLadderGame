@@ -38,7 +38,10 @@ namespace SnakeLadderGame
             {
                 int diceValue = DiceRoll();
                 int stepsToMove = Movement(diceValue);
-                nextPosition = currentPosition + stepsToMove;
+                if (currentPosition + stepsToMove > END_POSITION)
+                    nextPosition = currentPosition;
+                else
+                    nextPosition = currentPosition + stepsToMove;
                 if (nextPosition < START_POSITION)
                     currentPosition = START_POSITION;
                 else

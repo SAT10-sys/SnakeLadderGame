@@ -31,10 +31,20 @@ namespace SnakeLadderGame
         }
         static void Main(string[] args)
         {
+            int nextPosition;
             Console.WriteLine(" Welcome to Online Snake and Ladder Game");
             int currentPosition = START_POSITION;
-            int diceValue = DiceRoll();
-            int stepsToMove = Movement(diceValue);
+            while (currentPosition < END_POSITION)
+            {
+                int diceValue = DiceRoll();
+                int stepsToMove = Movement(diceValue);
+                nextPosition = currentPosition + stepsToMove;
+                if (nextPosition < START_POSITION)
+                    currentPosition = START_POSITION;
+                else
+                    currentPosition = nextPosition;
+            }
+            Console.WriteLine(" Final Position is: " + currentPosition);
         }
     }
 }

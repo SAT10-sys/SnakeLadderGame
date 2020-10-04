@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Snake_Ladder_Game;
+using System;
 using System.Security.Cryptography.X509Certificates;
 
 namespace SnakeLadderGame
@@ -31,26 +32,39 @@ namespace SnakeLadderGame
         }
         static void Main(string[] args)
         {
-            int nextPosition;
-            int noOfMoves = 0;
-            Console.WriteLine(" Welcome to Online Snake and Ladder Game");
-            int currentPosition = START_POSITION;
-            while (currentPosition < END_POSITION)
+            Person player1 = new Person(" PLAYER ONE ");
+            Person player2 = new Person(" PLAYER TWO ");
+            Person currentPlayer = player1;
+            bool isGameFinished = false;
+            while(!isGameFinished)
             {
                 int diceValue = DiceRoll();
-                noOfMoves++;
+                currentPlayer.noOfMoves++;
                 int stepsToMove = Movement(diceValue);
-                if (currentPosition + stepsToMove > END_POSITION)
-                    nextPosition = currentPosition;
+                if (currentPlayer.currentPosition + stepsToMove == END_POSITION)
+                {
+                    currentPlayer.nextPosition = END_POSITION;
+                    isGameFinished = true;
+                }
+                else if (currentPlayer.currentPosition + stepsToMove > END_POSITION)
+                {
+                    currentPlayer.nextPosition = currentPlayer.currentPosition;
+                }
                 else
-                    nextPosition = currentPosition + stepsToMove;
-                if (nextPosition < START_POSITION)
-                    currentPosition = START_POSITION;
+                    currentPlayer.nextPosition = currentPlayer.currentPosition + stepsToMove;
+                if (currentPlayer.nextPosition < START_POSITION)
+                    currentPlayer.currentPosition = START_POSITION;
                 else
-                    currentPosition = nextPosition;
-                Console.WriteLine(" The position after current throw is: " + currentPosition);
+                    currentPlayer.currentPosition = currentPlayer.nextPosition;
+                //displaying current player position after every roll of the dice
+                Console.WriteLine(currentPlayer.Name + "'s position after dice roll " + currentPlayer.noOfMoves + " is: " + currentPlayer.currentPosition);
+                if (stepsToMove > 0 && !isGameFinished)
+                    continue; // continue Move if ladder occurs and game is not finished
+                else if (!isGameFinished)
+                    currentPlayer = (currentPlayer == player1) ? player2 : player1;
             }
-            Console.WriteLine(" Final Position is: " + currentPosition + " and number of throws of the dice is: " + noOfMoves);
+            Console.WriteLine(" The Game has finished ");
+            Console.WriteLine(" The Winner is: " + currentPlayer.Name + " with total number of throws is: " + currentPlayer.noOfMoves);
         }
     }
 }

@@ -32,11 +32,13 @@ namespace SnakeLadderGame
         static void Main(string[] args)
         {
             int nextPosition;
+            int noOfMoves = 0;
             Console.WriteLine(" Welcome to Online Snake and Ladder Game");
             int currentPosition = START_POSITION;
             while (currentPosition < END_POSITION)
             {
                 int diceValue = DiceRoll();
+                noOfMoves++;
                 int stepsToMove = Movement(diceValue);
                 if (currentPosition + stepsToMove > END_POSITION)
                     nextPosition = currentPosition;
@@ -46,8 +48,9 @@ namespace SnakeLadderGame
                     currentPosition = START_POSITION;
                 else
                     currentPosition = nextPosition;
+                Console.WriteLine(" The position after current throw is: " + currentPosition);
             }
-            Console.WriteLine(" Final Position is: " + currentPosition);
+            Console.WriteLine(" Final Position is: " + currentPosition + " and number of throws of the dice is: " + noOfMoves);
         }
     }
 }
